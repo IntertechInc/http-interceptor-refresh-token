@@ -1,8 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+import { TestService } from "./test.service";
+import { AuthService } from './auth.service';
+import { RequestInterceptorService } from './request-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -12,7 +15,11 @@ import { AppComponent } from './app.component';
     HttpClientModule,
     BrowserModule
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: RequestInterceptorService, multi: true },
+    TestService,
+    AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

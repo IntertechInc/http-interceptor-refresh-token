@@ -21,6 +21,7 @@
     "@angular/platform-browser": "^4.4.6",
     "@angular/platform-browser-dynamic": "^4.4.6",
     "@angular/router": "^4.4.6",
+    "bootstrap": "^3.3.7",
     "core-js": "^2.5.1",
     "cross-spawn": "^5.1.0",
     "json-stable-stringify": "^1.0.1",
