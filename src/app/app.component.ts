@@ -19,9 +19,9 @@ export class AppComponent {
   test401() {
     this.testService.getData()
       .subscribe((response: any) => {
-        this.message = response.status;
+        this.message = `Worked with status = ${response.status}`;
       },
-      error => this.message = error.status);
+      error => this.message = `Failed with status = ${error.status}`);
   }
 
   test401Multiple() {
@@ -30,8 +30,8 @@ export class AppComponent {
 
     Observable.forkJoin(dataObservable$, lookupObservable$)
       .subscribe(([dataResult, lookupResult]) => {
-        this.message = dataResult.status + ' ' + lookupResult.status;
+        this.message = `Worked with getData status = ${dataResult.status} and getLookup status = ${lookupResult.status}`;
       },
-      error => this.message = error.status);
+      error => this.message = `Failed with status = ${error.status}`);
   }
 }

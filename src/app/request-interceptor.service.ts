@@ -20,8 +20,6 @@ export class RequestInterceptorService implements HttpInterceptor {
     constructor(private authService: AuthService) {}
 
     addToken(req: HttpRequest<any>, token: string): HttpRequest<any> {
-        console.log(`Token being added to header: ${token}`);
-
         return req.clone({ setHeaders: { Authorization: 'Bearer ' + token }})
     }
 
@@ -53,6 +51,11 @@ export class RequestInterceptorService implements HttpInterceptor {
     handle401Error(req: HttpRequest<any>, next: HttpHandler) {
         if (!this.isRefreshingToken) {
             this.isRefreshingToken = true;
+
+            // Reset here so that the following requests wait until the token
+            // comes back from the refreshToken call.
+            this.tokenSubject.next(null);
+
             return this.authService.refreshToken()
                 .switchMap((newToken: string) => {
                     if (newToken) {
