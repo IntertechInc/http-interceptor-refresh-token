@@ -1,14 +1,16 @@
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/of';
-import 'rxjs/add/operator/delay';
+import { HttpClient } from '@angular/common/http';
+import {of as observableOf,  Observable } from 'rxjs';
+import {delay} from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class AuthService {
     // Assuming this would be cached somehow from a login call.
     public authTokenStale: string = 'stale_auth_token';
     public authTokenNew: string = 'new_auth_token';
     public currentToken: string;
 
-    constructor() {
+    constructor(private http: HttpClient) {
         this.currentToken = this.authTokenStale;
     }
 
@@ -25,6 +27,9 @@ export class AuthService {
 
         this.currentToken = this.authTokenNew;
 
-        return Observable.of(this.authTokenNew).delay(200);
+        // Just to keep HttpClient from getting tree shaken.
+        this.http.get('http://private-4002d-testerrorresponses.apiary-mock.com/getData');
+
+        return observableOf(this.authTokenNew).pipe(delay(200));
     }
 }

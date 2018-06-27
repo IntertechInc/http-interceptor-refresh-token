@@ -1,6 +1,7 @@
+
+import {forkJoin as observableForkJoin,  Observable } from 'rxjs';
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/forkJoin';
+
 
 import { TestService } from './test.service';
 import { AuthService } from './auth.service';
@@ -28,7 +29,7 @@ export class AppComponent {
     let dataObservable$ = this.testService.getData();
     let lookupObservable$ = this.testService.getLookup();
 
-    Observable.forkJoin(dataObservable$, lookupObservable$)
+    observableForkJoin(dataObservable$, lookupObservable$)
       .subscribe(([dataResult, lookupResult]) => {
         this.message = `Worked with getData status = ${dataResult.status} and getLookup status = ${lookupResult.status}`;
       },
