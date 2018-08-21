@@ -30,6 +30,8 @@ export class RequestInterceptorService implements HttpInterceptor {
                             return this.handle400Error(error);
                         case 401:
                             return this.handle401Error(req, next);
+                        default:
+                            return observableThrowError(error);
                     }
                 } else {
                     return observableThrowError(error);
